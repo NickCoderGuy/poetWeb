@@ -1,0 +1,92 @@
+
+<style>
+ .main-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40px 16px;
+  background-color: #f5f5f5;
+}
+
+.poetry-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  max-width: 400px;
+  width: 100%;
+  background: white;
+  padding: 24px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  margin-bottom: 32px;
+}
+
+.results {
+  width: 100%;
+  max-width: 700px;
+}
+
+.poem-card {
+  background: white;
+  padding: 20px;
+  margin-bottom: 24px;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.poem-card h2 {
+  margin-bottom: 0.5rem;
+}
+
+.poem-card h4 {
+  margin-bottom: 1rem;
+  color: #666;
+}
+
+.poem-lines p {
+  margin: 0.2rem 0;
+  font-family: Georgia, 'Times New Roman', serif;
+}
+
+.error {
+  color: red;
+  font-weight: bold;
+  text-align: center;
+}
+
+</style>
+
+<main class="main-container">
+  <form (submit)="onSubmit(authorInput.value, titleInput.value); $event.preventDefault()" class="poetry-form">
+    <mat-form-field appearance="fill" class="form-field">
+      <mat-label>Author Name</mat-label>
+      <input matInput #authorInput placeholder="Shakespeare">
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" class="form-field">
+      <mat-label>Title</mat-label>
+      <input matInput #titleInput placeholder="Sonnet">
+    </mat-form-field>
+
+    <button mat-raised-button color="primary" type="submit">Search</button>
+  </form>
+
+  <div class="results">
+    <div *ngIf="data?.length">
+      <div *ngFor="let poem of data" class="poem-card">
+        <h2>{{ poem.title }}</h2>
+        <h4>by {{ poem.author }}</h4>
+        <div class="poem-lines">
+          <p *ngFor="let line of poem.lines">{{ line }}</p>
+        </div>
+        <hr />
+      </div>
+    </div>
+
+    <div *ngIf="data?.error" class="error">
+      {{ data.error }}
+    </div>
+  </div>
+</main>
+
+<router-outlet />
